@@ -6,7 +6,7 @@ export async function GET() {
   const token = process.env.GITHUB_TOKEN;
   const headers = {
     Authorization: `Bearer ${token}`,
-    "User-Agent": "myferr.dev",
+    "User-Agent": "myferr.foo.ng",
   };
 
   const res = await fetch(
