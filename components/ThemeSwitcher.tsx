@@ -12,7 +12,7 @@ import { Moon, Sun, Palette } from "lucide-react";
 
 const themes = [
   "default",
-  "caffeine",
+  "t3chat",
   "candyland",
   "catppuccin",
   "shadcn",
