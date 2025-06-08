@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next"
 import "@/public/styles/globals.css";
 import "@/public/styles/default.theme.css";
 
@@ -25,6 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark" id="layout">
+      <Analytics />
       <link
         rel="shortcut icon"
         href="https://github.com/myferr.png"
