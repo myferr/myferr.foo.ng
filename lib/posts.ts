@@ -26,7 +26,16 @@ export const posts = [
     },
     name: "introducing m3-chat",
   },
+  {
+    post: "/p/",
+    postdate: {
+      month: "june",
+      date: 17,
+      year: 2025,
+    },
+    name: "migrating m3-chat codebases",
+  },
 ].sort(
   (a, b) =>
-    a.postdate.year + a.postdate.date - (b.postdate.year + b.postdate.date)
+    a.postdate.year - a.postdate.date + (b.postdate.year - b.postdate.date)
 );
