@@ -1,12 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { Writing } from "@/components/pages/Writing";
 import { Home } from "@/components/pages/Home";
 
 export default function App() {
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const referrer = document.referrer;
+      console.log("Referrer:", referrer);
+    }
+  }, []);
   const [page, setPage] = useState<string>("home");
   return (
     <div className="flex flex-col gap-8 items-center justify-items-center min-h-screen p-8 pb-20 sm:p-20 font-[family-name:var(--font-geist-sans)]">
