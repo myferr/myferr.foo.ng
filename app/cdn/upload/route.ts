@@ -1,4 +1,6 @@
-export async function POST(request: { formData: () => any }) {
+import { NextRequest } from "next/server";
+
+export async function POST(request: NextRequest) {
   try {
     const cdnTunnelUrl = process.env.CDN_TUNNEL_URL;
     if (!cdnTunnelUrl) {
