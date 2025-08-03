@@ -2,13 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const runtime = "edge";
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ fileId: string; file: string }> }
-): Promise<NextResponse> {
+export async function GET(request: NextRequest): Promise<NextResponse> {
   try {
-    const { fileId, file } = await params;
     const cdnTunnelUrl = process.env.CDN_TUNNEL_URL;
+
     if (!cdnTunnelUrl) {
       return NextResponse.json(
         { error: "CDN_TUNNEL_URL environment variable is not set." },
@@ -16,15 +13,25 @@ export async function GET(
       );
     }
 
-    const encodedFile = encodeURIComponent(file);
-    const filePath = `${fileId}/${encodedFile}`;
+    const segments = request.nextUrl.pathname.split("/");
+    // console.log(segments);
+    const fileId = segments[2];
+    const file = segments[3];
+
+    if (!fileId || !file) {
+      return NextResponse.json(
+        { error: "Missing fileId or file in URL." },
+        { status: 400 }
+      );
+    }
+
     const base = cdnTunnelUrl.replace(/\/+$/, "");
-    const targetUrl = new URL(`${base}/${filePath}`);
-    targetUrl.search = request.nextUrl.search; // preserve incoming query string
+    const targetUrl = new URL(`${base}/cdn/${fileId}/${file}`);
+    targetUrl.search = request.nextUrl.search;
 
     const cdnResponse = await fetch(targetUrl.toString(), {
       cache: "no-store",
-      headers: request.headers, // forward original headers
+      headers: request.headers,
     });
 
     if (!cdnResponse.ok) {
@@ -38,7 +45,6 @@ export async function GET(
       );
     }
 
-    // Mirror status, headers, and body from CDN
     const proxied = new NextResponse(cdnResponse.body, {
       status: cdnResponse.status,
       statusText: cdnResponse.statusText,
@@ -59,4 +65,3 @@ export async function GET(
     );
   }
 }
-
