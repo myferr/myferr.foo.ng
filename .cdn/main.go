@@ -16,10 +16,16 @@ import (
 )
 
 const (
-	baseURL      = "http://localhost:8080/cdn"
 	storageDir   = "./storage"
 	metadataFile = "./cdn.json"
 )
+
+func getBaseURL() string {
+	if url := os.Getenv("BASE_URL"); url != "" {
+		return url
+	}
+	return "http://localhost:8080/cdn"
+}
 
 type Size struct {
 	Raw       int64  `json:"raw"`
@@ -157,8 +163,8 @@ func uploadFile(c *gin.Context) {
 		FileName:  fileName,
 		CreatedAt: time.Now().UTC().Format(time.RFC3339Nano),
 		Metadata: Metadata{
-			URL:  fmt.Sprintf("%s/%s/%s", baseURL, id, fileName),
-			View: fmt.Sprintf("%s/%s/%s?content=inline", baseURL, id, fileName),
+			URL:  fmt.Sprintf("%s/%s/%s", getBaseURL(), id, fileName),
+			View: fmt.Sprintf("%s/%s/%s?content=inline", getBaseURL(), id, fileName),
 			Size: Size{
 				Raw:       fileSize,
 				Formatted: formatSize(fileSize),
