@@ -101,6 +101,11 @@ export default function Home() {
               link: "mailto:contactme.myfer@protonmail.com",
               social: "email",
             },
+            {
+              label: "@myferr",
+              link: "https://github.com/myferr/",
+              social: "github",
+            },
           ].map((i) => (
             <li key={i.label} className="flex items-center justify-between">
               <Link
