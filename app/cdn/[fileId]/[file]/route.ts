@@ -16,7 +16,8 @@ export async function GET(
       );
     }
 
-    const filePath = `${fileId}/${file}`;
+    const encodedFile = encodeURIComponent(file);
+    const filePath = `${fileId}/${encodedFile}`;
     const base = cdnTunnelUrl.replace(/\/+$/, "");
     const targetUrl = new URL(`${base}/${filePath}`);
     targetUrl.search = request.nextUrl.search; // preserve incoming query string
